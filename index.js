@@ -7,6 +7,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const port = config.port;
 
+app.all('*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials','true');
+  res.header('Access-Control-Allow-Headers','access-control-allow-origin, authorization, content-type, x-auth-token, x-request-id, x-userid');
+  res.header('Access-Control-Max-Age', '1800');
+  res.header('Allow', 'GET, HEAD, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Vary', 'Origin');
+  next();
+});
 app.post('/:route', (request, response) => {
   console.log(`New Post Request To => ${request.params.route}`);
   console.log(`Headers ====> \n${JSON.stringify(request.headers).split(",").join("\n")}`)
