@@ -1,11 +1,19 @@
 const express = require('express');
+const fs = require('fs');
 const bodyParser = require("body-parser");
 const config = require('./config.json');
-const db = require('./db.json');
+let db = require('./db.json');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const port = config.port;
+
+fs.watchFile('./db.json', (curr, prev) => {
+  console.log('DB File Changed --> Reloading ---->');
+  const rawdata = fs.readFileSync('./db.json');  
+  db = JSON.parse(rawdata); 
+  console.log('Reloaded --->');
+});
 
 app.all('*', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
