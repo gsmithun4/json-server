@@ -16,6 +16,9 @@ fs.watchFile('./db.json', (curr, prev) => {
 });
 
 app.all('*', function(req, res, next) {
+  console.log("\n\n\n\n\n\n----------------------------------New Request	-------------------------------------")
+  console.log(`----------Headers ---------- \n${JSON.stringify(req.headers).split(",").join("\n")}`)
+  console.log(`----------Body ------------ \n${JSON.stringify(req.body)}`)
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -27,15 +30,11 @@ app.all('*', function(req, res, next) {
   next();
 });
 app.post('/:route', (request, response) => {
-  console.log(`New Post Request To => ${request.params.route}`);
-  console.log(`Headers ====> \n${JSON.stringify(request.headers).split(",").join("\n")}`)
-  console.log(`Body ====> \n${JSON.stringify(request.body)}`)
+  console.log(`----------URL ---------- \n${request.params.route}`);
   response.send(db[request.params.route]);
 });
 app.get('/:route', (request, response) => {
-  console.log(`New Get Request To => ${request.params.route}`);
-  console.log(`Headers ====> \n${JSON.stringify(request.headers).split(",").join("\n")}`)
-  console.log(`Body ====> \n${JSON.stringify(request.body)}`)
+  console.log(`----------URL ---------- \n${request.params.route}`);
   response.send(db[request.params.route]);
 });
 
